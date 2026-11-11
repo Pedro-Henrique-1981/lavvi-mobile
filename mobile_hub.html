@@ -198,6 +198,75 @@
             <div class="hw-role" style="color: var(--green);">Campo & Testes</div>
         </div>
     </div>
+<style>
+    .hw-card { cursor: pointer; transition: border-color .2s, background .2s; }
+    .hw-card.active { border-color: var(--gold); background: rgba(212,175,55,.08); }
+    #hwPanel { margin: 10px 0 18px; padding: 12px; border: 1px solid var(--gold); border-radius: 10px; background: rgba(255,255,255,.03); }
+    #hwPanel h4 { margin: 0 0 8px; font-size: 13px; color: var(--gold); }
+    #hwPanel label { display: block; font-size: 12px; line-height: 1.5; margin: 6px 0; color: #e8e8e8; }
+    #hwPanel code { font-size: 11px; color: var(--gold-light); }
+    #hwDiag { font-size: 11px; opacity: .85; margin-top: 10px; white-space: pre-wrap; }
+    .hw-diag-btn { margin-top: 10px; padding: 8px 12px; font-size: 12px; border-radius: 8px; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; }
+</style>
+<div id="hwPanel"></div>
+<script>
+    const HW_TESTS = {
+        pc1: { title: 'PC 1 &middot; Home Master (GPU)', items: [
+            'Relocation Matcher 3D abre fluido (sem travar ao girar o mapa)',
+            'Deck Executivo: Ctrl+P gera PDF 4K sem cortes',
+            'Copilot WhatsApp: copiar mensagem e colar no WhatsApp Web',
+            'Rodar <code>python scripts\\heartbeat.py --name PC1 --loop 300</code> e ver &#128994; no painel 4',
+            'Fila de renderiza&ccedil;&atilde;o pesada (Flow/Veo) n&atilde;o derruba o navegador'
+        ]},
+        pc2: { title: 'PC 2 &middot; Port&aacute;til (ARM)', items: [
+            'Hub e as 5 ferramentas abrem sem erro no Chrome ARM',
+            'Matcher 3D roda em modo leve (aceit&aacute;vel, sem fechar a aba)',
+            'Rodar <code>python scripts\\cosimo_sentinel.py</code> e ver STATUS VERDE',
+            'Rodar <code>python scripts\\heartbeat.py --name PC2 --loop 300</code> e ver &#128994; no painel 4',
+            'Arquivo novo no Drive aparece no outro PC em at&eacute; 2 min'
+        ]},
+        phone: { title: 'Samsung &middot; Campo &amp; Testes', items: [
+            'Hub abre no 4G/5G com os dois PCs desligados',
+            'Copilot WhatsApp: 1 toque abre o WhatsApp com a mensagem pronta',
+            'Disparar Notifica&ccedil;&atilde;o: push chega na barra do celular',
+            'Matcher 3D: gesto de toque e rota&ccedil;&atilde;o de tela funcionam',
+            'Deck em tela vertical: texto leg&iacute;vel sem zoom'
+        ]}
+    };
+    function renderHw(key) {
+        document.querySelectorAll('.hw-card').forEach(c => c.classList.toggle('active', c.dataset.hw === key));
+        const t = HW_TESTS[key];
+        const saved = JSON.parse(localStorage.getItem('hwtests_' + key) || '{}');
+        let h = '<h4>Testar em: ' + t.title + '</h4>';
+        t.items.forEach((it, i) => {
+            h += '<label><input type="checkbox" ' + (saved[i] ? 'checked ' : '') + 'onchange="saveHw(\'' + key + '\',' + i + ',this.checked)"> ' + it + '</label>';
+        });
+        h += '<button class="hw-diag-btn" onclick="runDiag()">&#128269; Diagn&oacute;stico deste aparelho</button><div id="hwDiag"></div>';
+        document.getElementById('hwPanel').innerHTML = h;
+    }
+    function saveHw(key, i, v) {
+        const s = JSON.parse(localStorage.getItem('hwtests_' + key) || '{}');
+        s[i] = v; localStorage.setItem('hwtests_' + key, JSON.stringify(s));
+    }
+    function runDiag() {
+        let gpu = 'n/d';
+        try {
+            const gl = document.createElement('canvas').getContext('webgl');
+            const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
+            gpu = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : (gl ? 'WebGL ativo' : 'sem WebGL');
+        } catch (e) {}
+        const c = navigator.connection || {};
+        document.getElementById('hwDiag').textContent =
+            'GPU: ' + gpu + '\nN\u00facleos: ' + (navigator.hardwareConcurrency || 'n/d') +
+            '\nMem\u00f3ria: ' + (navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'n/d') +
+            '\nTela: ' + screen.width + 'x' + screen.height + ' @' + devicePixelRatio + 'x' +
+            '\nRede: ' + (c.effectiveType || 'n/d') + '\nNavegador: ' + navigator.userAgent.slice(0, 90);
+    }
+    const hwCards = document.querySelectorAll('.hw-card');
+    ['pc1', 'pc2', 'phone'].forEach((k, i) => { hwCards[i].dataset.hw = k; hwCards[i].addEventListener('click', () => renderHw(k)); });
+    renderHw(/Android|iPhone/i.test(navigator.userAgent) ? 'phone' : 'pc1');
+</script>
+
 
     <!-- Seção 1: Ferramentas de Fechamento de Vendas (WhatsApp / Stand) -->
     <div class="section-title">⚡ 1. Fechamento & WhatsApp (Zero Latência)</div>
