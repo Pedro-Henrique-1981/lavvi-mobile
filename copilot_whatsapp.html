@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peter Copilot • WhatsApp Real Estate AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0c10;
+            --surface: #12151c;
+            --surface-card: #181c26;
+            --surface-hover: #1f2533;
+            --gold: #d4af37;
+            --gold-bright: #f3e5ab;
+            --gold-glow: rgba(212, 175, 55, 0.25);
+            --whatsapp-green: #25d366;
+            --whatsapp-dark: #128c7e;
+            --text-main: #f0f2f5;
+            --text-muted: #9aa0a6;
+            --border: rgba(212, 175, 55, 0.2);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+        .badge-top {
+            display: inline-block;
+            background: rgba(37, 211, 102, 0.15);
+            color: var(--whatsapp-green);
+            border: 1px solid var(--whatsapp-green);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        h1 span {
+            color: var(--gold);
+        }
+        .lead {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        @media (max-width: 860px) {
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quick-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .chip {
+            background: rgba(255,255,255,0.06);
+            color: var(--gold-bright);
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.2s;
+        }
+        .chip:hover {
+            background: var(--gold);
+            color: #000;
+            font-weight: 600;
+        }
+        label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 6px;
+        }
+        input, textarea, select {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--gold);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+        .btn-generate {
+            width: 100%;
+            background: linear-gradient(135deg, var(--gold) 0%, #b89328 100%);
+            color: #000;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-generate:hover {
+            background: linear-gradient(135deg, #f3e5ab 0%, var(--gold) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--gold-glow);
+        }
+        .output-box {
+            background: #0d1117;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 18px;
+            min-height: 220px;
+            white-space: pre-wrap;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .action-btns {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-whatsapp {
+            flex: 1;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-whatsapp:hover {
+            background: #1eb956;
+            transform: translateY(-2px);
+        }
+        .btn-copy {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-copy:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .fact-card {
+            background: rgba(212, 175, 55, 0.08);
+            border-left: 3px solid var(--gold);
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 15px;
+            font-size: 0.88rem;
+        }
+        .fact-card strong {
+            color: var(--gold-bright);
+        }
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #10b981;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="badge-top">🤖 CO-PILOTO PEDRO • TESTE 100% GRÁTIS</span>
+            <h1>WhatsApp <span>Real Estate Copilot</span></h1>
+            <p class="lead">Gere respostas perfeitas e consultivas para leads no WhatsApp em 3 segundos. Zero alucinação, ancorado nas especificações auditadas da Lavvi Cyrela.</p>
+        </div>
+
+        <div class="app-grid">
+            <!-- Painel Esquerdo: Entrada do Lead -->
+            <div class="panel">
+                <div class="panel-title">📩 Mensagem Recebida do Lead</div>
+                
+                <label>Testes Rápidos de Clientes Reais (Clique para simular):</label>
+                <div class="quick-chips">
+                    <span class="chip" onclick="simulateLead('Hípica - Tênis & Terreno', 'Jardim da Hípica', 'Oi Peter! Vi seu vídeo do Jardim da Hípica. As quadras de tênis são de saibro ou rápidas? E qual o tamanho do terreno mesmo?')">🎾 Hípica (Tênis & Terreno)</span>
+                    <span class="chip" onclick="simulateLead('Alive - Família & Lazer', 'Alive Home Resort', 'Pedro, boa tarde. Tenho dois filhos pequenos e procuro 3 dormitórios. O Alive tem parque aquático infantil? Qual a metragem?')">🏊 Alive (Lazer Infantil)</span>
+                    <span class="chip" onclick="simulateLead('Versace - Alto Padrão Moema', 'Villa Milano Versace', 'Olá Peter, tudo bem? O Versace em Moema tem previsão de entrega e quais as plantas disponíveis? Fica perto do shopping?')">🏛️ Versace (Moema Luxo)</span>
+                    <span class="chip" onclick="simulateLead('TOM Paraíso - Rentabilidade', 'T.O.M. Paraíso', 'Peter, busco investimento para locação médica no Paraíso. O TOM tem estúdios? Qual a distância do metrô?')">🏥 TOM (Investidor Médico)</span>
+                    <span class="chip" onclick="simulateLead('Petra - Rooftop & Quadra', 'Petra Brooklin', 'Oi Pedro, você tem a tabela do Petra no Brooklin? A quadra de tênis fica mesmo no rooftop?')">🎾 Petra (Brooklin Sky)</span>
+                </div>
+
+                <label for="projectSelect">Empreendimento Vinculado:</label>
+                <select id="projectSelect" onchange="updateFactAnchor()">
+                    <option value="Jardim da Hípica">Jardim da Hípica (Alto da Boa Vista)</option>
+                    <option value="Alive Home Resort">Alive Home Resort (Ipiranga)</option>
+                    <option value="Villa Milano Versace">Villa Milano Versace (Moema Pássaros)</option>
+                    <option value="T.O.M. Paraíso">T.O.M. Paraíso (Eixo Hospitalar)</option>
+                    <option value="Petra Brooklin">Petra (Brooklin & Berrini)</option>
+                    <option value="Saffire by Elie Saab">Saffire by Elie Saab (Moema Pássaros)</option>
+                    <option value="Grand Square">Grand Square (Chácara Santo Antônio)</option>
+                </select>
+
+                <div id="factAnchorBox" class="fact-card">
+                    <strong>Âncora Auditada:</strong> Terreno de 39.553 m² + Praça de 10.000 m² | 02 Quadras Oficiais (18x36m) + Body Care | Raia 60m | Plantas 84m² a 276m² | Em frente ao CHSA.
+                </div>
+
+                <label for="leadName">Nome do Cliente (Opcional):</label>
+                <input type="text" id="leadName" placeholder="Ex: Dr. Roberto / Sra. Mariana" value="Dr. Roberto">
+
+                <label for="leadMessage">Pergunta / Áudio Transcrito do Lead:</label>
+                <textarea id="leadMessage" placeholder="Cole aqui a mensagem recebida no WhatsApp...">Oi Peter! Vi seu vídeo do Jardim da Hípica. As quadras de tênis são de saibro ou rápidas? E qual o tamanho do terreno mesmo?</textarea>
+
+                <label for="leadPhone">WhatsApp do Cliente (Apenas dígitos com DDD):</label>
+                <input type="text" id="leadPhone" placeholder="Ex: 11988887777" value="11988887777">
+
+                <button class="btn-generate" onclick="generateCopilotReply()">⚡ Gerar Resposta Consultiva (Pedro Soares)</button>
+            </div>
+
+            <!-- Painel Direito: Resposta Pronta do Co-Piloto -->
+            <div class="panel">
+                <div class="panel-title">💎 Rascunho Pronto para Envio</div>
+                
+                <div class="output-box" id="outputReply">Clique no botão "Gerar Resposta Consultiva" ao lado para ver o Co-Piloto em ação com o tom culto, amigável e 100% fiel de Pedro Soares.</div>
+
+                <div class="action-btns">
+                    <button class="btn-copy" onclick="copyReply()">📋 Copiar Texto</button>
+                    <a href="#" id="waLink" class="btn-whatsapp" target="_blank">
+                        🟢 Abrir no WhatsApp Direto
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">✅ Resposta copiada com sucesso!</div>
+
+    <script>
+        const facts = {
+            "Jardim da Hípica": {
+                specs: "Terreno monumental de 39.553 m² (~40.000 m²) com praça pública verde de 10.000 m² integrada. 02 quadras de tênis de medidas oficiais (18x36m) com piso rápido de alta absorção de impacto, 02 quadras de beach tennis, piscina com raia de 60 metros e 04 Private Houses exclusivas.",
+                plants: "Plantas tipo de 84 m² a 276 m² e studios de 21 m² a 57 m².",
+                location: "Rua Antônio Bandeira, 305 (Alto da Boa Vista), exatamente em frente ao Clube Hípico de Santo Amaro e próximo aos colégios Chapel School e Suíço-Brasileiro.",
+                management: "Gestão internacional CBRE e assessoria esportiva Body Care inclusa no condomínio."
+            },
+            "Alive Home Resort": {
+                specs: "Terreno gigantesco de 18.000 m² no Ipiranga com clube resort completo: parque aquático privativo com piscinas integradas, parque aquático infantil com cogumelos d'água, lounge social transfer com mármore nero e mais de 30 itens de lazer.",
+                plants: "Plantas residenciais inteligentes de 53 m² a 111 m² (2 e 3 dormitórios com suíte).",
+                location: "No coração nobre do Ipiranga, a poucos minutos do Museu do Ipiranga, Parque da Independência e Estação Tamanduateí.",
+                management: "Condomínio clube com custo operacional rateado e altamente eficiente."
+            },
+            "Villa Milano Versace": {
+                specs: "O primeiro projeto residencial com interiores assinados pela alta-costura internacional em Moema. Mosaicos gregos na piscina, lobby monumental com pé-direito duplo, lounge esculpido em mármore nero e engenharia convencional sólida.",
+                plants: "Mansões suspensas exclusivas de 220 m² a 450 m².",
+                location: "Moema Pássaros, a passos do Shopping Ibirapuera e a minutos do Parque Ibirapuera.",
+                management: "Privacidade absoluta e acabamentos italianos de coleção."
+            },
+            "T.O.M. Paraíso": {
+                specs: "Oásis urbano com quadra de beach tennis na areia branca cercada por árvores nativas, piscina resort sunset elevada com vista panorâmica de São Paulo e fitness center de última geração.",
+                plants: "Studios inteligentes de 24 m² a 44 m² e apartamentos residenciais de 60 m² a 140 m².",
+                location: "No Paraíso, a apenas 400 metros do Metrô Paraíso, ao lado do Parque Ibirapuera e no coração do maior polo médico-hospitalar do Brasil.",
+                management: "Altíssima liquidez para locação de médicos, residentes e executivos."
+            },
+            "Petra Brooklin": {
+                specs: "Projeto de altíssimo padrão com quadra de tênis oficial rápida nas alturas (rooftop), sky pool com mármore verde e vista panorâmica para o skyline corporativo, além de complexo de spa completo.",
+                plants: "Apartamentos nobres de 135 m² a 250 m².",
+                location: "Brooklin Nobre, ao lado da Avenida Engenheiro Luís Carlos Berrini e a 5 minutos do Shopping Morumbi.",
+                management: "Estrutura convencional em concreto armado que permite total personalização das plantas."
+            },
+            "Saffire by Elie Saab": {
+                specs: "Alta-costura internacional assinada pelo estilista Elie Saab com mobiliário desenhado em Paris. Quadra de tênis oficial, quadra de beach tennis, piscina coberta e aquecida monumental e spa de luxo.",
+                plants: "Residências de altíssimo luxo de 360 m² e 493 m² (4 suítes com vagas demarcadas).",
+                location: "Moema Pássaros, no quadrilátero mais valorizado e arborizado da Zona Sul.",
+                management: "Exclusividade máxima para clientes private wealth."
+            },
+            "Grand Square": {
+                specs: "Empreendimento contemporâneo com piscina resort, solarium amplo, deck molhado, lobby com pé-direito duplo e segurança reforçada.",
+                plants: "Plantas confortáveis para família de 135 m² a 228 m² com varanda gourmet com churrasqueira.",
+                location: "Chácara Santo Antônio, a minutos do eixo corporativo da Berrini e Chucri Zaidan, e próximo ao Parque Severo Gomes e Shopping Morumbi.",
+                management: "Perfeito equilíbrio entre a tranquilidade de rua residencial e conveniência corporativa."
+            }
+        };
+
+        function updateFactAnchor() {
+            const proj = document.getElementById('projectSelect').value;
+            const data = facts[proj];
+            document.getElementById('factAnchorBox').innerHTML = `<strong>Âncora Auditada (${proj}):</strong> ${data.specs} | <strong>Plantas:</strong> ${data.plants} | <strong>Local:</strong> ${data.location}`;
+        }
+
+        function simulateLead(title, proj, msg) {
+            document.getElementById('projectSelect').value = proj;
+            document.getElementById('leadMessage').value = msg;
+            updateFactAnchor();
+            generateCopilotReply();
+        }
+
+        function generateCopilotReply() {
+            const name = document.getElementById('leadName').value.trim();
+            const proj = document.getElementById('projectSelect').value;
+            const msg = document.getElementById('leadMessage').value.trim();
+            const phone = document.getElementById('leadPhone').value.trim().replace(/\D/g, '');
+            const data = facts[proj];
+
+            const greeting = name ? `Olá, ${name}! Tudo bem?` : `Olá! Tudo bem?`;
+            
+            let reply = `${greeting}\n\n`;
+            reply += `Aqui é o Peter, corretor direto da Lavvi do grupo Cyrela. Muito obrigado pelo contato!\n\n`;
+            
+            // Personalização inteligente com base nas palavras do lead
+            if (msg.toLowerCase().includes('tênis') || msg.toLowerCase().includes('tenis') || msg.toLowerCase().includes('quadra')) {
+                reply += `Sobre as quadras: no ${proj}, as quadras de tênis possuem medidas oficiais e contam com piso de alta absorção de impacto, projetadas tanto para treinos de alta performance quanto para o lazer da família.\n\n`;
+            }
+            
+            if (msg.toLowerCase().includes('terreno') || msg.toLowerCase().includes('tamanho')) {
+                reply += `O terreno é um dos grandes diferenciais do projeto: são ${data.specs.split('.')[0]}.\n\n`;
+            }
+
+            if (msg.toLowerCase().includes('planta') || msg.toLowerCase().includes('metragem') || msg.toLowerCase().includes('dormitório') || msg.toLowerCase().includes('dorm')) {
+                reply += `Em relação às metragens, nós temos opções de ${data.plants}.\n\n`;
+            }
+
+            if (msg.toLowerCase().includes('onde') || msg.toLowerCase().includes('local') || msg.toLowerCase().includes('perto') || msg.toLowerCase().includes('shopping') || msg.toLowerCase().includes('metrô')) {
+                reply += `A localização é privilegiada: ${data.location}.\n\n`;
+            }
+
+            // Fechamento consultivo socrático
+            reply += `Vou separar aqui o Book Oficial em PDF de alta resolução com as plantas detalhadas e te encaminho por aqui em seguida.\n\n`;
+            reply += `Se você preferir, posso te ligar rapidamente de 2 minutos ou agendamos um café no stand para você conhecer a maquete física com calma.\n\n`;
+            reply += `Um abraço,\nPeter (Pedro Soares)\nLavvi Private Wealth • Cyrela\nWhatsApp: (11) 96610-5952`;
+
+            document.getElementById('outputReply').innerText = reply;
+
+            // Atualiza link do WhatsApp
+            const targetPhone = phone.length >= 10 ? (phone.startsWith('55') ? phone : '55' + phone) : '5511966105952';
+            const encodedText = encodeURIComponent(reply);
+            document.getElementById('waLink').href = `https://wa.me/${targetPhone}?text=${encodedText}`;
+        }
+
+        function copyReply() {
+            const text = document.getElementById('outputReply').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const t = document.getElementById('toast');
+                t.style.display = 'block';
+                setTimeout(() => { t.style.display = 'none'; }, 2000);
+            });
+        }
+
+        // Init on load
+        window.onload = function() {
+            updateFactAnchor();
+            generateCopilotReply();
+        };
+    </script>
+</body>
+</html>

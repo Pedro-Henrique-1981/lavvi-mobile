@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
     <title>Peter Soares • Lavvi Mobile Cockpit</title>
     <meta name="theme-color" content="#0a0c10">
     <meta name="mobile-web-app-capable" content="yes">
@@ -244,14 +245,6 @@
             </div>
             <span class="tool-btn">Abrir</span>
         </a>
-
-        <a href="painel_leads_comprados.html" class="tool-card">
-            <div class="tool-info">
-                <div class="tool-name">🎯 Painel de Leads</div>
-                <div class="tool-desc">Classificação e esteira de atendimento de contatos.</div>
-            </div>
-            <span class="tool-btn">Abrir</span>
-        </a>
     </div>
 
     <!-- Seção 3: Teste de Notificação Push -->
@@ -271,9 +264,9 @@
         function sendTestPush() {
             const status = document.getElementById('pingStatus');
             status.style.display = 'block';
-            status.innerText = "Enviando alerta para o tópico pedro-lavvi-wealth...";
+            status.innerText = "Enviando alerta para o tópico lavvi-3be8151a106beace199f...";
 
-            fetch('https://ntfy.sh/pedro-lavvi-wealth', {
+            fetch('https://ntfy.sh/lavvi-3be8151a106beace199f', {
                 method: 'POST',
                 headers: {
                     'Title': '👑 Peter Lavvi Cockpit • Teste Samsung',
