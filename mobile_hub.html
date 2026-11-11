@@ -255,11 +255,49 @@
         <div id="pingStatus" style="font-size: 11px; margin-top: 8px; color: var(--gold-light); display: none;"></div>
     </div>
 
+    <!-- Status dos PCs (heartbeat via ntfy) -->
+    <div class="section-title">4. Status dos PCs</div>
+    <div class="ping-box" id="pcStatus">
+        <div id="pcList" style="font-size:13px;line-height:1.9;">Carregando...</div>
+        <div style="font-size:11px;margin-top:8px;opacity:.7;">Verde = sinal nos &uacute;ltimos 15 min. Rode <code>heartbeat.py --name PC1</code> no computador.</div>
+    </div>
+
     <div class="footer">
         Pedro Soares • Peter Corretor Direto Lavvi Cyrela<br>
         WhatsApp: (11) 96610-5952 • Ambiente de Teste Otimizado
     </div>
 
+    <script>
+        async function loadPcStatus() {
+            const el = document.getElementById('pcList');
+            try {
+                const r = await fetch('https://ntfy.sh/lavvi-3be8151a106beace199f/json?poll=1&since=24h&tags=heartbeat');
+                const lines = (await r.text()).trim().split('\n').filter(Boolean);
+                const last = {};
+                lines.forEach(l => {
+                    try {
+                        const m = JSON.parse(l);
+                        if (m.event !== 'message') return;
+                        const d = JSON.parse(m.message);
+                        if (!last[d.pc] || m.time > last[d.pc].time) last[d.pc] = { time: m.time, tools: d.tools };
+                    } catch (e) {}
+                });
+                const now = Date.now() / 1000;
+                el.innerHTML = ['PC1', 'PC2'].map(pc => {
+                    const s = last[pc];
+                    if (!s) return '&#9898; <b>' + pc + '</b>: sem sinal nas &uacute;ltimas 24h';
+                    const min = Math.round((now - s.time) / 60);
+                    const on = min <= 15;
+                    return (on ? '&#128994;' : '&#128308;') + ' <b>' + pc + '</b>: ' + (on ? 'online' : 'offline') +
+                        ' (h&aacute; ' + min + ' min) &middot; ferramentas ' + s.tools;
+                }).join('<br>');
+            } catch (e) {
+                el.textContent = 'Nao consegui consultar o canal agora.';
+            }
+        }
+        loadPcStatus();
+        setInterval(loadPcStatus, 60000);
+    </script>
     <script>
         function sendTestPush() {
             const status = document.getElementById('pingStatus');
