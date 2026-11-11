@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Sandbox • Auditor Grupo do Michel & Lavvi Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090b10;
+            --card: #121620;
+            --border: rgba(212, 175, 55, 0.25);
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --green: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 18px;
+            max-width: 1080px;
+            margin: 0 auto;
+            line-height: 1.55;
+        }
+        .sandbox-banner {
+            background: rgba(212,175,55,0.12);
+            border: 1px dashed var(--gold);
+            color: var(--gold-light);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .sandbox-banner a { color: var(--gold); font-weight: 700; text-decoration: none; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.7rem; margin-bottom: 4px; }
+        .sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 16px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .panel h3 { font-size: 1rem; color: var(--gold); margin-bottom: 10px; }
+        textarea, select, input {
+            width: 100%;
+            background: #0b0e15;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            font-size: 12.5px;
+            cursor: pointer;
+            background: var(--gold);
+            color: #000;
+        }
+        .diff-card {
+            background: #0b0e15;
+            border-left: 3px solid var(--amber);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+        .question-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-size: 12.5px;
+        }
+        .question-card b { color: var(--gold-light); }
+    </style>
+</head>
+<body>
+    <div class="sandbox-banner">
+        <span>📋 <strong>AUDITOR DE VERDADE OFICIAL (/lab/)</strong> • Compare mensagens do Grupo do Michel com a nossa Base de 45 Projetos.</span>
+        <div>
+            <a href="lab_bot_arena.html" style="margin-right:12px;">🎯 Ir para Arena do Bot</a>
+            <a href="../mobile_hub.html">⬅ Voltar ao Hub</a>
+        </div>
+    </div>
+
+    <h1>Auditor Grupo do Michel & Lavvi Oficial</h1>
+    <p class="sub">Cole qualquer comunicado do grupo do Michel (preço, unidades vendidas, campanha, fluxo) e veja na hora o que diverge da nossa base.</p>
+
+    <div class="grid">
+        <div class="panel">
+            <h3>1. Colar Mensagem / Tabela do Grupo do Michel</h3>
+            <select id="projFilter" onchange="showCurrentTruth()">
+                <option value="">Auto-detectar empreendimento no texto...</option>
+            </select>
+            <textarea id="michelText" rows="6" placeholder="Cole aqui a mensagem do WhatsApp do Michel (ex: 'Pessoal, tabela nova do Jardim da Hípica a partir de R$ 1.290.000, restam 18 unidades...')"></textarea>
+            <button class="btn" onclick="compareMichel()">🔍 Comparar com a Base Oficial Agora</button>
+
+            <div id="diffOutput"></div>
+        </div>
+
+        <div class="panel">
+            <h3>2. Pauta Pronta para Confirmar no Grupo do Michel</h3>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Pontos onde o nosso cofre tem lacuna ou precisa de confirmação da gerência:</p>
+
+            <div class="question-card">
+                <b>1. Jardim da Hípica (Piso das 02 Quadras de Tênis):</b><br>
+                O Memorial diz "02 Quadras Oficiais (18x36m)", mas um script antigo dizia "saibro" e outro "rápida". Qual é o piso definitivo entregue?
+            </div>
+            <div class="question-card">
+                <b>2. Tabelas Vigentes (Novembro/2026 vs Outubro/2026):</b><br>
+                Nossa pasta oficial é <code>26_10_T1</code> (Out/2026). Houve virada de tabela em Novembro para Hípica, T.O.M. Paraíso ou Well Perdizes?
+            </div>
+            <div class="question-card">
+                <b>3. Espelho de Vendas (Unidades Disponíveis):</b><br>
+                Confirmar se as últimas unidades HIS-2 / R2V de entrada do T.O.M. Paraíso ainda têm estoque na tabela de Novembro.
+            </div>
+            <div class="question-card">
+                <b>4. Campanha de Final de Ano (Fluxo de Sinal):</b><br>
+                Confirmar com Michel se há flexibilização temporária no sinal de 6,5% (Hípica) ou 7,5% (T.O.M.) para fechamentos em Novembro.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CATALOG = [{"nome": "Jardim da Hípica", "bairro": "Alto da Boa Vista", "status": "Em Obras", "entrega": "Mar/2031", "fluxo_curto": "Fluxo 55% Obra / 45% Chaves", "fluxo_obra": "55% Obra (6,5% Sinal + 6,5% em 2x 60/90d + 27% em 49 mensais + 10% em 3 anuais + 5% Única Mar/2031) + 45% Financiamento (Mar/2031)", "avail_count": 184, "total_count": 946, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/hipica", "units": "Torre A (276m², Torre A (180m², Torre B (149m², Torre B (133m², Torre C (170m², Torre C (133m²"}, {"nome": "Jardim da Hípica Apartments", "bairro": "Alto da Boa Vista", "status": "Em Obras", "entrega": "Mar/2031", "fluxo_curto": "Fluxo 55% Obra / 45% Chaves", "fluxo_obra": "55% Obra (6,5% Sinal + 6,5% em 2x 60/90d + 27% em 49 mensais + 10% em 3 anuais + 5% Única Mar/2031) + 45% Financiamento (Mar/2031)", "avail_count": 215, "total_count": 630, "table_ref": "Out/2026 (v1)", "url": "https://www.lavvi.com.br/empreendimentos/jardim-da-hipica-apartments", "units": "Apto (57m², Apto (48m², 1 Dorm (28m², 1 Dorm (26m², Studio (21m²"}, {"nome": "Le Six Residences", "bairro": "Paraíso", "status": "Em Obras", "entrega": "Jun/2029", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Obra (5% Sinal + 5% em 2x + 15% em 27 mensais + 5% em 2 anuais + 5% Única Jun/29) + 65% Financiamento", "avail_count": 57, "total_count": 522, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/le-six-residences", "units": "Apto Tipo (156m², Apto Tipo (203m², Apto Tipo (264m², Cobertura Duplex (521m²"}, {"nome": "Villa Residence", "bairro": "Moema", "status": "Pronto Para Morar", "entrega": "Pronto (Fev/2026)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Ago/2025): 30% Sinal / Ato + 70% Financiamento Bancário Imediato (ou À Vista)", "avail_count": 8, "total_count": 403, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/villa-residence", "units": "Duplex (404m², Apto Tipo (220m², Apto Tipo (150m²"}, {"nome": "Villa Studios", "bairro": "Moema", "status": "Pronto Para Morar", "entrega": "Pronto (Ago/2025)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Ago/2025): 30% Sinal / Ato + 70% Financiamento Bancário Imediato (ou À Vista)", "avail_count": 5, "total_count": 120, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/villa-studios", "units": "Studio (31m², Studio (28m²"}, {"nome": "Green View Residence", "bairro": "Butantã", "status": "Pronto Para Morar", "entrega": "Pronto (Fev/2026)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Mar/2026): 30% Sinal / Ato + 70% Financiamento Bancário Imediato", "avail_count": 11, "total_count": 433, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/green-view-residence", "units": "Apto Tipo (159m², Apto Tipo (132m²"}, {"nome": "Alive", "bairro": "Vila Prudente", "status": "Em Obras", "entrega": "Abr/2028", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Obra (5% Sinal + 5% em 2x + 10% em 13 mensais + 5% Anual + 10% Única Mar/28) + 65% Financiamento (Abr/2028)", "avail_count": 172, "total_count": 1400, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/alive", "units": "Cobertura Duplex (350m², Penthouse (211m², Apto Tipo (188m², Apto Tipo (170m², Apto Tipo (139m², Apto Tipo (113m²"}, {"nome": "Heaven Residences", "bairro": "Paraíso", "status": "Em Obras", "entrega": "Mar/2029", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Obra (5% Sinal + 5% em 2x + 15% em 24 mensais + 5% em 2 anuais + 5% Única Fev/29) + 65% Financiamento (Mar/2029)", "avail_count": 66, "total_count": 947, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/heaven-residences", "units": "Cobertura Duplex (513m², Apto Tipo (258m², Apto Tipo (187m²"}, {"nome": "Palace", "bairro": "Brás", "status": "Em Obras", "entrega": "Dez/2027", "fluxo_curto": "Fluxo 37% Obra / 63% Chaves", "fluxo_obra": "37% Obra (5% Sinal + 5% em 2x + 14% em 9 mensais + 8% Anual + 5% Única Nov/27) + 63% Financiamento (Dez/2027)", "avail_count": 19, "total_count": 216, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/palace", "units": "Cobertura Duplex (370m², Apto Tipo (164m², Apto Tipo (142m², Apto Tipo (86m²"}, {"nome": "Petra", "bairro": "Brooklin", "status": "Em Obras", "entrega": "Jul/2028", "fluxo_curto": "Fluxo 47% Obra / 53% Chaves", "fluxo_obra": "47% Obra (7,5% Sinal + 7,5% em 2x + 19% em 16 mensais + 8% em 2 anuais + 5% Única Jun/28) + 53% Financiamento (Jul/2028)", "avail_count": 53, "total_count": 407, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/petra", "units": "Cobertura (305m², Apto Tipo (199m², Apto Tipo (162m²"}, {"nome": "Saffire", "bairro": "Moema", "status": "Em Obras", "entrega": "Nov/2026", "fluxo_curto": "Fluxo 30% Chaves / 70% Financ.", "fluxo_obra": "Reta Final de Entrega (Nov/2026): 15% Sinal (Out/26) + 15% Parcela Única na Entrega (Nov/26) + 70% Financiamento", "avail_count": 23, "total_count": 147, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/saffire-elie-saab", "units": "Mansão Suspensa (493m², Mansão Suspensa (360m²"}, {"nome": "Soleil Apartments", "bairro": "Chácara Klabin", "status": "Em Obras", "entrega": "Abr/2029", "fluxo_curto": "Fluxo 47% Obra / 53% Chaves", "fluxo_obra": "47% Obra (7,5% Sinal + 7,5% em 2x + 19% em 25 mensais + 8% em 2 anuais + 5% Única Mar/29) + 53% Financiamento (Abr/2029)", "avail_count": 19, "total_count": 80, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/soleil-apartments", "units": "Studio (31m², Studio (23m²"}, {"nome": "Soleil Residences", "bairro": "Chácara Klabin", "status": "Em Obras", "entrega": "Abr/2029", "fluxo_curto": "Fluxo 47% Obra / 53% Chaves", "fluxo_obra": "47% Obra (7,5% Sinal + 7,5% em 2x + 19% em 25 mensais + 8% em 2 anuais + 5% Única Mar/29) + 53% Financiamento (Abr/2029)", "avail_count": 38, "total_count": 154, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/soleil-residences", "units": "Cobertura Duplex (487m², Garden (376m², Mansão Suspensa (246m²"}, {"nome": "Verdant", "bairro": "Tucuruvi", "status": "Pronto para Morar", "entrega": "Pronto (Fev/2026)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Dez/2025): 30% Sinal / Ato + 70% Financiamento Bancário Imediato", "avail_count": 2, "total_count": 174, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/verdant", "units": "Cobertura (261m², Apto Tipo (155m², Apto Tipo (133m², Apto Tipo (129m²"}, {"nome": "Grand Square", "bairro": "Praça da Árvore", "status": "Pronto Para Morar", "entrega": "Pronto (Mai/2026)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Mai/2026): 30% Sinal / Ato + 70% Financiamento Bancário Imediato", "avail_count": 62, "total_count": 343, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/grand-square", "units": "Apto Tipo (79m², Apto Tipo (65m², Studio (32m²"}, {"nome": "Le Six Ibirapuera", "bairro": "Moema", "status": "Breve Lançamento", "entrega": "Out/2030", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Período de Obra (10% Entrada + 25% Mensais/Anuais sem juros) + 65% nas Chaves (Out/2030)", "avail_count": 239, "total_count": 250, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/le-six-ibirapuera", "units": "Apto Tipo (264m², Apto Tipo (194m²"}, {"nome": "Le Six Ibirapuera Apartments", "bairro": "Moema", "status": "Breve Lançamento", "entrega": "Out/2030", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Período de Obra (10% Entrada + 25% Mensais/Anuais sem juros) + 65% nas Chaves (Out/2030)", "avail_count": 110, "total_count": 120, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/le-six-ibirapuera-apartments", "units": "Compactos (28m², Compactos (45m²"}, {"nome": "T.O.M. Paraíso", "bairro": "Paraíso", "status": "Lançamento", "entrega": "Jul/2030", "fluxo_curto": "Fluxo 47% Obra / 53% Chaves", "fluxo_obra": "47% Obra (7,5% Sinal + 7,5% em 2x + 19% em 39 mensais + 8% em 3 anuais + 5% Única Jul/30) + 53% Financiamento (Jul/2030)", "avail_count": 380, "total_count": 901, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/tom-paraiso", "units": "Apto R2V (44m², Apto R2V (40m², 1 Dorm R2V (34m², Studio HMP/R2V (27m², Studio HIS-2/R2V (25m²"}, {"nome": "Casa Cerâmica", "bairro": "Espaço Cerâmica (São Caetano do Sul)", "status": "Pronto - 100% Vendido", "entrega": "Mar/2030", "fluxo_curto": "Fluxo 47% Obra / 53% Chaves", "fluxo_obra": "47% Obra (7,5% Sinal + 7,5% em 2x + 19% em 36 mensais + 8% em 2 anuais + 5% Única Fev/30) + 53% Financiamento (Mar/2030)", "avail_count": 29, "total_count": 39, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/casa-ceramica", "units": ""}, {"nome": "Heaven Apartments", "bairro": "Paraíso", "status": "100% Vendido", "entrega": "Mar/2029", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Obra (5% Sinal + 5% em 2x + 15% em 24 mensais + 5% em 2 anuais + 5% Única Fev/29) + 65% Financiamento (Mar/2029)", "avail_count": 28, "total_count": 320, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/heaven-apartments", "units": ""}, {"nome": "Le Six Apartments", "bairro": "Paraíso", "status": "100% Vendido", "entrega": "Jun/2029", "fluxo_curto": "Fluxo 35% Obra / 65% Chaves", "fluxo_obra": "35% Obra (5% Sinal + 5% em 2x + 15% em 27 mensais + 5% em 2 anuais + 5% Única Jun/29) + 65% Financiamento", "avail_count": 22, "total_count": 180, "table_ref": "Out/2026 (26.10)", "url": "https://www.lavvi.com.br/empreendimentos/le-six-apartments", "units": ""}, {"nome": "Wonder Residence", "bairro": "Ipiranga", "status": "100% Vendido", "entrega": "Pronto (Jun/2025)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Jun/2025): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/wonder-residence", "units": ""}, {"nome": "Praça Mooca", "bairro": "Mooca", "status": "100% Vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/praca-mooca", "units": ""}, {"nome": "Eden by Dror", "bairro": "Brooklin", "status": "100% Vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/eden-by-dror", "units": ""}, {"nome": "Grand Vitrali", "bairro": "Moema", "status": "100% Vendido", "entrega": "Pronto (Nov/2024)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Nov/2024): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/grand-vitrali", "units": ""}, {"nome": "High Wonder", "bairro": "Brás", "status": "100% Vendido", "entrega": "Pronto (Nov/2025)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Nov/2025): 30% Sinal / Ato + 70% Financiamento Bancário Imediato", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/high-wonder", "units": ""}, {"nome": "Lumiere Residence", "bairro": "Chácara Klabin", "status": "100% Vendido", "entrega": "Pronto (Out/2024)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Out/2024): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/lumiere-residence", "units": ""}, {"nome": "Lumiere Studios", "bairro": "Chácara Klabin", "status": "100% Vendido", "entrega": "Pronto (Out/2024)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Out/2024): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/lumiere-studios", "units": ""}, {"nome": "Movva Luz", "bairro": "Luz", "status": "100% Vendido", "entrega": "Pronto (Dez/2024)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Dez/2024): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/movva-luz", "units": ""}, {"nome": "Nativ Tatuapé", "bairro": "Tatuapé", "status": "100% Vendido", "entrega": "Pronto (Dez/2024)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Dez/2024): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/nativ-tatuape", "units": ""}, {"nome": "One Park Perdizes", "bairro": "Perdizes", "status": "100% Vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/one-park-perdizes", "units": ""}, {"nome": "Palazzo Vila Mariana", "bairro": "Vila Mariana", "status": "100% Vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/palazzo-vila-mariana", "units": ""}, {"nome": "Boulevard Lapa", "bairro": "Lapa", "status": "100% Vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/boulevard-lapa", "units": ""}, {"nome": "Praça Piratininga", "bairro": "Brás", "status": "100% Vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/praca-piratininga", "units": ""}, {"nome": "Studios Elie Saab", "bairro": "Moema", "status": "Em Obras - 100% vendido", "entrega": "Nov/2026", "fluxo_curto": "Fluxo 30% Chaves / 70% Financ.", "fluxo_obra": "Reta Final de Entrega (Nov/2026): 15% Sinal (Out/26) + 15% Única na Entrega (Nov/26) + 70% Financiamento", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/studios-elie-saab", "units": "Studio NR (29m²"}, {"nome": "Vitrali Moema", "bairro": "Moema", "status": "Pronto - 100% vendido", "entrega": "Pronto (Entregue)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto e Entregue (Revenda / Repasse): 30% Sinal + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/vitrali-moema", "units": ""}, {"nome": "Wonder by Praças da Cidade", "bairro": "Brás", "status": "Pronto - 100% vendido", "entrega": "Pronto (Dez/2023)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Dez/2023): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/wonder-by-pracas-da-cidade", "units": ""}, {"nome": "Wonder Ipiranga Studios", "bairro": "Ipiranga", "status": "Pronto - 100% vendido", "entrega": "Pronto (Jun/2025)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Jun/2025): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/wonder-ipiranga-studios", "units": ""}, {"nome": "Galleria Klabin", "bairro": "Chácara Klabin", "status": "Pronto para Morar", "entrega": "Pronto (Jul/2026)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Ago/2026): 30% Sinal / Ato + 70% Financiamento Bancário Imediato", "avail_count": 1, "total_count": 606, "table_ref": "Out/2026", "url": "https://www.lavvi.com.br/empreendimentos/galleria-klabin", "units": "Apto Tipo (166m²"}, {"nome": "Novvo Santa Marina", "bairro": "Água Branca", "status": "Lançamento", "entrega": "Set/2029", "fluxo_curto": "Fluxo 54% Obra / 46% Chaves", "fluxo_obra": "54% Obra (6% Sinal + 6% em 2x + 30% em 31 mensais + 7% em 3 anuais + 5% Única Ago/29) + 46% Financiamento (Set/2029)", "avail_count": 160, "total_count": 462, "table_ref": "Out/2026", "url": "https://meunovvo.com.br/santamarina/", "units": "1 dorm (31m², 2 dorms (41m²"}, {"nome": "Novvo Anália Franco", "bairro": "Anália Franco", "status": "Lançamento", "entrega": "Nov/2028", "fluxo_curto": "Fluxo 41% Obra / 59% Chaves", "fluxo_obra": "R2V: 41% Obra (6% Sinal + 6% em 2x + 17% em 21 mensais + 7% em 2 anuais + 5% Única Nov/28) + 59% Chaves | HIS: 54% Obra / 46% Chaves", "avail_count": 23, "total_count": 594, "table_ref": "Out/2026", "url": "https://meunovvo.com.br/novvoanaliafranco/", "units": "1 dorm (31m², 2 dorms (41m²"}, {"nome": "Novvo Vila Prudente", "bairro": "Vila Prudente", "status": "Em Obras", "entrega": "Out/2028", "fluxo_curto": "Fluxo 41% Obra / 59% Chaves", "fluxo_obra": "R2V: 41% Obra (6% Sinal + 6% em 2x + 17% em 20 mensais + 7% em 2 anuais + 5% Única Out/28) + 59% Chaves | HIS: 54% Obra / 46% Chaves", "avail_count": 290, "total_count": 900, "table_ref": "Out/2026", "url": "https://meunovvo.com.br/vilaprudente/", "units": "1 dorm (31m², 2 dorms (41m²"}, {"nome": "Novvo Marajoara", "bairro": "Jardim Marajoara", "status": "Em Obras", "entrega": "Fev/2028", "fluxo_curto": "Fluxo 54% Obra / 46% Chaves", "fluxo_obra": "54% Obra (6% Sinal + 6% em 2x + 30% em 12 mensais + 7% em 2 anuais + 5% Única Fev/28) + 46% Financiamento (Fev/2028)", "avail_count": 1, "total_count": 794, "table_ref": "Out/2026", "url": "https://meunovvo.com.br/novvo-marajoara/", "units": "1 dorm (31m², 2 dorms (41m²"}, {"nome": "Novvo Barra Funda", "bairro": "Barra Funda", "status": "Em Obras", "entrega": "Pronto (Jul/2026)", "fluxo_curto": "Pronto: 30% Sinal / 70% Financ.", "fluxo_obra": "Imóvel Pronto (Entregue Jul/2026): 30% Sinal / Ato + 70% Financiamento Bancário", "avail_count": "", "total_count": "", "table_ref": "Out/2026", "url": "https://meunovvo.com.br/novvo-barra-funda/", "units": "1 dorm (31m², 2 dorms (41m²"}, {"nome": "Well Perdizes", "bairro": "Perdizes", "status": "Lançamento", "entrega": "Fev/2030", "fluxo_curto": "Fluxo 41% Obra / 59% Chaves", "fluxo_obra": "41% Obra (6% Sinal + 6% em 2x + 17% em 32 mensais + 7% em 2 anuais + 5% Única Out/29) + 59% Financiamento (Fev/2030)", "avail_count": 805, "total_count": 1252, "table_ref": "Out/2026", "url": "https://meunovvo.com.br/wellperdizes/", "units": "2 Suítes R2V (51m², 2 Suítes R2V (47m², 2 Dorms R2V/HIS (35m², Studio NR (30m², 1 Dorm HIS-2 (25m²"}];
+
+        function init() {
+            const sel = document.getElementById('projFilter');
+            sel.innerHTML = '<option value="">🔎 Auto-detectar empreendimento no texto...</option>' +
+                CATALOG.map((p, i) => `<option value="${i}">${p.nome} (${p.bairro})</option>`).join('');
+        }
+
+        function showCurrentTruth() {
+            const idx = document.getElementById('projFilter').value;
+            if (idx === '') return;
+            const p = CATALOG[Number(idx)];
+            document.getElementById('diffOutput').innerHTML = renderProjectCard(p, null);
+        }
+
+        function renderProjectCard(p, michelRaw) {
+            let alerts = [];
+            if (michelRaw) {
+                const prices = michelRaw.match(/R\$\s?[\d\.,]+/gi) || [];
+                const pcts = michelRaw.match(/\d+[\.,]?\d*\s?%/g) || [];
+                if (prices.length) alerts.push(`💰 <b>Preços citados pelo Michel:</b> ${prices.join(' | ')}`);
+                if (pcts.length) alerts.push(`📊 <b>Percentuais/Fluxo citados:</b> ${pcts.join(' | ')}`);
+            }
+            return `<div class="diff-card">
+                <div style="color:var(--gold);font-weight:800;margin-bottom:6px;">📌 O QUE TEMOS HOJE NA BASE (${p.nome}):</div>
+                <div>• <b>Bairro:</b> ${p.bairro} | <b>Status:</b> ${p.status} | <b>Entrega:</b> ${p.entrega || 'N/D'}</div>
+                <div>• <b>Fluxo cadastrado:</b> ${p.fluxo_curto || p.fluxo_obra || 'Não preenchido'}</div>
+                <div>• <b>Unidades/Preços na base:</b> ${p.units || 'Consultar PDF'}</div>
+                <div>• <b>Disponíveis na base:</b> ${p.avail_count !== '' ? p.avail_count : 'N/D'} (Ref: ${p.table_ref})</div>
+                ${alerts.length ? '<hr style="border-color:rgba(255,255,255,0.1);margin:8px 0;">' + alerts.join('<br>') : ''}
+                <div style="margin-top:10px;">
+                    <button class="btn" onclick="sendAuditLog('${p.nome.replace(/'/g, '')}')">📲 Registrar Divergência para Atualização às 18h</button>
+                </div>
+            </div>`;
+        }
+
+        function compareMichel() {
+            const raw = document.getElementById('michelText').value.trim();
+            const selIdx = document.getElementById('projFilter').value;
+            let matched = selIdx !== '' ? CATALOG[Number(selIdx)] : null;
+
+            if (!matched && raw) {
+                const low = raw.toLowerCase();
+                matched = CATALOG.find(p => low.includes(p.nome.toLowerCase().split(' ')[0]));
+            }
+            if (!matched) {
+                document.getElementById('diffOutput').innerHTML = '<div class="diff-card">Selecione o empreendimento acima para comparar linha a linha com a nossa base.</div>';
+                return;
+            }
+            document.getElementById('diffOutput').innerHTML = renderProjectCard(matched, raw);
+        }
+
+        function sendAuditLog(projName) {
+            const raw = document.getElementById('michelText').value.trim();
+            fetch('https://ntfy.sh/lavvi-3be8151a106beace199f', {
+                method: 'POST',
+                headers: { 'Title': 'Update Michel: ' + projName, 'Tags': 'memo,warning', 'Priority': 'default' },
+                body: `[ATUALIZAR BASE] Projeto: ${projName} | Texto Michel: ${raw.slice(0, 300)}`
+            }).then(() => alert('Registrado no canal da agência! Na sessão das 18h aplicamos a atualização com você.'));
+        }
+
+        init();
+    </script>
+</body>
+</html>
